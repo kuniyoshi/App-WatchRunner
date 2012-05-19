@@ -113,7 +113,7 @@ watch_runner - runs make command when file is changed
   watch_runner [-makeprg=<programname> <files ...>]
 
   watch_runner: will run 'make' on change
-  watch_runner -makeprg=perl -beforemake=clear -aftermake='echo ... at $(date +%H:%M:%S) sam.pl: run 'perl sam.pl' on sam.pl's change
+  watch_runner -makeprg=perl -beforemake=clear -aftermake='echo ... at $(date +%H:%M:%S)' sam.pl: run 'perl sam.pl' on sam.pl's change
 
 =head1 DESCRIPTION
 
