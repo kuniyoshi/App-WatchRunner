@@ -31,7 +31,7 @@ exit;
 
 sub usage {
     <<USAGE;
-usage: $0 [-makeprg=<programname> <files ...>]
+usage: $0 [-makeprg=<programname> <file> [<file ...>]]
 USAGE
 }
 
@@ -65,7 +65,8 @@ sub use_temporary_makefile {
 
 sub get_files_from_makefile {
     my $file    = file( "Makefile" );
-    my @targets = map { m{\A (\w+) [:][ ] }msx ? $1 : ( ) }
+    my @targets = uniq
+                  map { m{\A (\w+) [:][ ] }msx ? $1 : ( ) }
                   $file->slurp( chomp => 1 );
     my @files   = grep { my $file = $_; ! grep { $_ eq $file } @targets }
                   uniq
@@ -86,7 +87,7 @@ sub watch_and_run {
             if defined $beforemake;
 
         system( $makeprg ) == 0
-            or warn "Making failed.[$!]";
+            or warn "Failed making.[$!]";
 
         trigger( $aftermake )
             if defined $aftermake;
@@ -110,7 +111,7 @@ watch_runner - runs make command when file is changed
 
 =head1 SYNOPSIS
 
-  watch_runner [-makeprg=<programname> <files ...>]
+  watch_runner [-makeprg=<programname> <file> [<file ...>]]
 
   watch_runner: will run 'make' on change
   watch_runner -makeprg=perl -beforemake=clear -aftermake='echo ... at $(date +%H:%M:%S)' sam.pl: run 'perl sam.pl' on sam.pl's change

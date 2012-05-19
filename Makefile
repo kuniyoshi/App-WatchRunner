@@ -3,7 +3,7 @@ all: prepare self sam done
 prepare:
 	clear
 
-self: watch_runner.pl
+self: watch_runner
 	pod2text $< README
 
 sam: sam.pl
